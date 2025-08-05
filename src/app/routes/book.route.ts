@@ -14,4 +14,4 @@ router.get("/:bookId", getBookById);
 router.put("/:bookId", updateBook);
 router.delete("/:bookId", deleteBook);
 
-export const bookRoutes = router;
+export default router;

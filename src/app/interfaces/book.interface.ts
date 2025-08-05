@@ -1,12 +1,12 @@
 export type Genre =
-  | "Fiction"
-  | "Non-Fiction"
-  | "Science"
-  | "History"
-  | "Fantasy"
-  | "Biography"
-  | "Mystery"
-  | "Romance";
+  | "FICTION"
+  | "NON-FICTION"
+  | "SCIENCE"
+  | "HISTORY"
+  | "FANTASY"
+  | "BIOGRAPHY"
+  | "MYSTERY"
+  | "ROMANCE";
 export interface IBook {
   title: string;
   author: string;

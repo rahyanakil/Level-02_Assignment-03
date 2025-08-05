@@ -18,14 +18,14 @@ const bookSchema = new Schema<BookDocument>(
       type: String,
       required: true,
       enum: [
-        "Fiction",
-        "Non-Fiction",
-        "Science",
-        "History",
-        "Fantasy",
-        "Biography",
-        "Mystery",
-        "Romance",
+        "FICTION",
+        "NON-FICTION",
+        "SCIENCE",
+        "HISTORY",
+        "FANTASY",
+        "BIOGRAPHY",
+        "MYSTERY",
+        "ROMANCE",
       ],
     },
     isbn: { type: String, required: true, unique: true },
@@ -42,14 +42,23 @@ const bookSchema = new Schema<BookDocument>(
   },
   {
     timestamps: true,
+    toJSON: {
+      transform(_doc, ret) {
+        ret._id = ret._id.toString();
+        delete ret.__v;
+        return ret;
+      },
+    },
   }
 );
 
+// Instance method
 bookSchema.methods.updateAvailability = async function () {
   this.available = this.copies > 0;
   await this.save();
 };
 
+// Static method
 bookSchema.statics.updateAvailabilityStatic = async function (bookId: string) {
   const book = await this.findById(bookId);
   if (book) {
@@ -58,6 +67,7 @@ bookSchema.statics.updateAvailabilityStatic = async function (bookId: string) {
   }
 };
 
+// Middleware
 bookSchema.pre("save", function (next) {
   console.log(`Book being saved: ${this.title}`);
   next();

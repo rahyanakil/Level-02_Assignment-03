@@ -9,7 +9,9 @@ const uri = process.env.MONGODB_URI as string;
 
 async function bootstrap() {
   try {
-    await mongoose.connect(uri);
+    await mongoose.connect(
+      "mongodb+srv://rahyanlibrary:rahyanlibrary@cluster0.upxd80l.mongodb.net/libraryDB?retryWrites=true&w=majority&appName=Cluster0"
+    );
     console.log("Connected to MongoDB");
 
     app.listen(port, () => {

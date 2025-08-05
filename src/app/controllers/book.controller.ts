@@ -100,10 +100,11 @@ export const updateBook = async (req: Request, res: Response) => {
       data: book,
     });
   } catch (error) {
+    console.error("Update error:", error);
     res.status(400).json({
       success: false,
       message: "Failed to update book",
-      error,
+      error: error instanceof Error ? error.message : error,
     });
   }
 };
