@@ -19,7 +19,7 @@ export const createBook = async (req: Request, res: Response) => {
   }
 };
 
-// Get all books by filter, sort and limit
+// Get all books with optional filter, sort, and limit
 export const getAllBooks = async (req: Request, res: Response) => {
   try {
     const {
@@ -28,6 +28,7 @@ export const getAllBooks = async (req: Request, res: Response) => {
       sort = "desc",
       limit = 10,
     } = req.query;
+
     const query: any = {};
     if (filter) query.genre = filter;
 
@@ -52,7 +53,7 @@ export const getAllBooks = async (req: Request, res: Response) => {
 // Get book by ID
 export const getBookById = async (req: Request, res: Response) => {
   try {
-    const book = await Book.findById(req.params.bookId); // fix: bookId (not BookId)
+    const book = await Book.findById(req.params.bookId);
     if (!book) {
       return res.status(404).json({
         success: false,
@@ -77,21 +78,24 @@ export const getBookById = async (req: Request, res: Response) => {
 // Update book by ID
 export const updateBook = async (req: Request, res: Response) => {
   try {
-    const book = await Book.findByIdAndUpdate(req.params.bookId, req.body, {
+    const updateData = { ...req.body };
+
+    // Automatically update "available" field based on "copies"
+    if (updateData.copies !== undefined) {
+      updateData.available = updateData.copies > 0;
+    }
+
+    const book = await Book.findByIdAndUpdate(req.params.bookId, updateData, {
       new: true,
       runValidators: true,
     });
+
     if (!book) {
       return res.status(404).json({
         success: false,
         message: "Book not found",
         data: null,
       });
-    }
-
-    // Update availability
-    if (req.body.copies !== undefined && book.updateAvailability) {
-      await book.updateAvailability();
     }
 
     res.status(200).json({
@@ -109,7 +113,7 @@ export const updateBook = async (req: Request, res: Response) => {
   }
 };
 
-// Delete book
+// Delete book by ID
 export const deleteBook = async (req: Request, res: Response) => {
   try {
     const book = await Book.findByIdAndDelete(req.params.bookId);
