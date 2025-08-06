@@ -1,139 +1,114 @@
-import { Request, Response } from "express";
+// import { Request, Response } from "express";
 import { Book } from "../models/book.model";
 
-// Create book
 export const createBook = async (req: Request, res: Response) => {
   try {
     const book = await Book.create(req.body);
-    res.status(201).json({
-      success: true,
-      message: "Book created successfully",
-      data: book,
-    });
-  } catch (error) {
-    res.status(400).json({
-      success: false,
-      message: "Validation failed",
-      error,
-    });
-  }
-};
-
-// Get all books with optional filter, sort, and limit
-export const getAllBooks = async (req: Request, res: Response) => {
-  try {
-    const {
-      filter,
-      sortBy = "createdAt",
-      sort = "desc",
-      limit = 10,
-    } = req.query;
-
-    const query: any = {};
-    if (filter) query.genre = filter;
-
-    const books = await Book.find(query)
-      .sort({ [sortBy as string]: sort === "desc" ? -1 : 1 })
-      .limit(parseInt(limit as string));
-
-    res.status(200).json({
-      success: true,
-      message: "Books retrieved successfully",
-      data: books,
-    });
-  } catch (error) {
+    res.status(201).json({ success: true, data: book });
+  } catch (error: any) {
     res.status(500).json({
       success: false,
-      message: "Failed to retrieve books",
-      error,
+      message: "Failed to create book",
+      error: error.message,
     });
   }
 };
 
-// Get book by ID
+export const getAllBooks = async (_req: Request, res: Response) => {
+  try {
+    const books = await Book.find();
+    res.json({ success: true, data: books });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to get books",
+      error: error.message,
+    });
+  }
+};
+
 export const getBookById = async (req: Request, res: Response) => {
   try {
     const book = await Book.findById(req.params.bookId);
     if (!book) {
-      return res.status(404).json({
-        success: false,
-        message: "Book not found",
-        data: null,
-      });
+      return res
+        .status(404)
+        .json({ success: false, message: "Book not found" });
     }
-    res.status(200).json({
-      success: true,
-      message: "Book retrieved successfully",
-      data: book,
-    });
-  } catch (error) {
-    res.status(400).json({
+    res.json({ success: true, data: book });
+  } catch (error: any) {
+    res.status(500).json({
       success: false,
-      message: "Invalid book ID",
-      error,
+      message: "Failed to get book",
+      error: error.message,
     });
   }
 };
 
-// Update book by ID
+//update book
 export const updateBook = async (req: Request, res: Response) => {
   try {
-    const updateData = { ...req.body };
+    const { bookId } = req.params;
 
-    // Automatically update "available" field based on "copies"
-    if (updateData.copies !== undefined) {
-      updateData.available = updateData.copies > 0;
-    }
+    // Only update provided fields in req.body
+    const updatedBook = await Book.findByIdAndUpdate(
+      bookId,
+      req.body, // Update only the fields sent by the client
+      {
+        new: true, // Return the updated document
+        runValidators: true, // Run schema validations
+      }
+    );
 
-    const book = await Book.findByIdAndUpdate(req.params.bookId, updateData, {
-      new: true,
-      runValidators: true,
-    });
-
-    if (!book) {
+    if (!updatedBook) {
       return res.status(404).json({
         success: false,
         message: "Book not found",
-        data: null,
       });
     }
 
-    res.status(200).json({
+    // Recalculate availability after update
+    updatedBook.available = updatedBook.copies > 0;
+    await updatedBook.save();
+
+    return res.status(200).json({
       success: true,
       message: "Book updated successfully",
-      data: book,
+      data: updatedBook,
     });
-  } catch (error) {
-    console.error("Update error:", error);
-    res.status(400).json({
+  } catch (error: any) {
+    return res.status(500).json({
       success: false,
       message: "Failed to update book",
-      error: error instanceof Error ? error.message : error,
+      error: error.message,
     });
   }
 };
 
-// Delete book by ID
+//delete book
 export const deleteBook = async (req: Request, res: Response) => {
   try {
-    const book = await Book.findByIdAndDelete(req.params.bookId);
-    if (!book) {
+    const { bookId } = req.params;
+
+    const deletedBook = await Book.findByIdAndDelete(bookId);
+
+    if (!deletedBook) {
       return res.status(404).json({
         success: false,
         message: "Book not found",
-        data: null,
       });
     }
-    res.status(200).json({
+
+    return res.status(200).json({
       success: true,
       message: "Book deleted successfully",
       data: null,
     });
-  } catch (error) {
-    res.status(400).json({
+  } catch (error: any) {
+    return res.status(500).json({
       success: false,
       message: "Failed to delete book",
-      error,
+      error: error.message,
     });
   }
 };
