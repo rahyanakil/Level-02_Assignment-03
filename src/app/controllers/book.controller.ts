@@ -1,6 +1,6 @@
-// import { Request, Response } from "express";
+import { Request, Response } from "express";
 import { Book } from "../models/book.model";
-
+//create book
 export const createBook = async (req: Request, res: Response) => {
   try {
     const book = await Book.create(req.body);
@@ -13,7 +13,7 @@ export const createBook = async (req: Request, res: Response) => {
     });
   }
 };
-
+//get all books
 export const getAllBooks = async (_req: Request, res: Response) => {
   try {
     const books = await Book.find();
@@ -26,7 +26,7 @@ export const getAllBooks = async (_req: Request, res: Response) => {
     });
   }
 };
-
+//get book by id
 export const getBookById = async (req: Request, res: Response) => {
   try {
     const book = await Book.findById(req.params.bookId);
@@ -50,15 +50,10 @@ export const updateBook = async (req: Request, res: Response) => {
   try {
     const { bookId } = req.params;
 
-    // Only update provided fields in req.body
-    const updatedBook = await Book.findByIdAndUpdate(
-      bookId,
-      req.body, // Update only the fields sent by the client
-      {
-        new: true, // Return the updated document
-        runValidators: true, // Run schema validations
-      }
-    );
+    const updatedBook = await Book.findByIdAndUpdate(bookId, req.body, {
+      new: true,
+      runValidators: true,
+    });
 
     if (!updatedBook) {
       return res.status(404).json({

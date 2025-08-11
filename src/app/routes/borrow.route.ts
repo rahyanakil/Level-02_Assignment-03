@@ -3,7 +3,7 @@ import { borrowController } from "../controllers/borrow.controller";
 
 const router = express.Router();
 
-router.post("/", borrowController.borrowBook);
-router.get("/", borrowController.getBorrowSummary);
+router.post("/borrow", borrowController.borrowBook);
+router.get("/borrow", borrowController.getBorrowedBooksSummary);
 
 export default router;

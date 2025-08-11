@@ -4,7 +4,8 @@
   "main": "src/server.ts",
   "scripts": {
     "build": "tsc",
-    "dev": "tsx watch src/server.ts"
+    "dev": "tsx watch src/server.ts",
+    "lint": "npx eslint ."
   },
   "build": "tsc",
   "keywords": [],
@@ -19,9 +20,15 @@
     "tsx": "^4.20.3"
   },
   "devDependencies": {
+    "@eslint/js": "^9.33.0",
     "@types/express": "^5.0.3",
     "@types/node": "^24.2.0",
+    "eslint": "^9.33.0",
+    "eslint-plugin-react": "^7.37.5",
+    "globals": "^16.3.0",
+    "jiti": "^2.5.1",
     "ts-node-dev": "^2.0.0",
-    "typescript": "^5.9.2"
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.39.1"
   }
 }

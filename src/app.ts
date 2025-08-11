@@ -9,7 +9,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/books", bookRoutes);
-app.use("/api/borrow", borrowRoutes);
+app.use("/api/", borrowRoutes);
 
 app.get("/", (req: Request, res: Response) => {
   res.send(`Library management system is running`);

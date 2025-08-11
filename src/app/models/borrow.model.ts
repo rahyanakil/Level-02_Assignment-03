@@ -26,16 +26,14 @@ const borrowSchema = new Schema<BorrowDocument>(
   }
 );
 
-//update book availability on borrow middleware
-
-borrowSchema.post("save", async function (doc, next) {
-  const book = await Book.findById(doc.book);
-  if (book) {
-    book.copies -= doc.quantity;
-    if (book.copies < 0) {
-      throw new Error("Not enough copies available");
-    }
-    await book.updateAvailability();
+// Pre-save middleware to validate book and quantity
+borrowSchema.pre("save", async function (next) {
+  const book = await Book.findById(this.book);
+  if (!book) {
+    return next(new Error("Book not found"));
+  }
+  if (book.copies < this.quantity) {
+    return next(new Error("Not enough copies available"));
   }
   next();
 });
