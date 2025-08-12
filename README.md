@@ -48,7 +48,7 @@ A full-stack **Library Management System** built with **Express.js**, **TypeScri
 It allows you to manage books, borrow them, and view borrow summaries using aggregation.
 
 ---
-
+```
 ## 📂 Project Structure
 src/
 │── app/
@@ -62,6 +62,7 @@ src/
 
 
 ---
+```
 
 ## ⚙️ Installation & Setup
 
@@ -157,5 +158,6 @@ Every time you open a code block with three backticks (\`\`\`), **close it** bef
 That’s what will stop GitHub from putting everything in a giant grey box.
 
 ---
+
 
 
