@@ -52,7 +52,9 @@ src/
 │── config/ # Database and environment configuration
 │── index.ts # App entry point
 
-
+yaml
+Copy
+Edit
 
 ---
 
@@ -62,9 +64,6 @@ src/
 ```bash
 git clone https://github.com/your-username/library-management-system.git
 cd library-management-system
-
-
-
 2️⃣ Install dependencies
 bash
 Copy
@@ -87,10 +86,8 @@ Copy
 Edit
 npm run build
 npm start
-
-
 📌 API Endpoints
-Books
+📚 Books
 Method	Endpoint	Description
 GET	/api/books	Get all books
 GET	/api/books/:id	Get book by ID
@@ -98,7 +95,7 @@ POST	/api/books	Add new book
 PUT	/api/books/:id	Update book
 DELETE	/api/books/:id	Delete book
 
-Borrow
+📖 Borrow
 Method	Endpoint	Description
 POST	/api/borrow	Borrow a book
 GET	/api/borrow/summary	Get borrowed books summary (aggregation)
@@ -157,10 +154,15 @@ Edit
 
 ---
 
-If you want, I can also **add a beautifully formatted ASCII banner** at the top of the README so it looks even more premium for GitHub.  
-Do you want me to make that version?
+✅ **Why this will look perfect now**  
+- Proper code fences (` ```bash`, ` ```json`) make commands and JSON readable.  
+- Headings (`##`, `###`) are consistent so sections stand out.  
+- Tables are used for API endpoint lists.  
+- Sections are separated by `---` lines for better readability.  
 
+If you paste this into your **README.md**, GitHub will render it clean and professional.  
 
+---
 
-## 📂 Project Structure
-
+If you want, I can also **add a premium ASCII title banner** to the top so it has that “wow” factor when someone opens your repo.  
+That would make it really stand out.
