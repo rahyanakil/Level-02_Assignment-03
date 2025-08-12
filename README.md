@@ -42,6 +42,14 @@ The system allows you to manage books, borrow transactions, and retrieve analyti
 ---
 
 
+# 📚 Library Management System
+
+A full-stack **Library Management System** built with **Express.js**, **TypeScript**, and **MongoDB**.  
+It allows you to manage books, borrow them, and view borrow summaries using aggregation.
+
+---
+
+## 📂 Project Structure
 src/
 │── app/
 │ ├── models/ # Mongoose models & schema definitions
@@ -52,9 +60,6 @@ src/
 │── config/ # Database and environment configuration
 │── index.ts # App entry point
 
-yaml
-Copy
-Edit
 
 ---
 
@@ -64,47 +69,44 @@ Edit
 ```bash
 git clone https://github.com/your-username/library-management-system.git
 cd library-management-system
+```
 2️⃣ Install dependencies
-bash
-Copy
-Edit
+```bash
 npm install
+```
 3️⃣ Create .env file
-env
-Copy
-Edit
+```bash
 PORT=5000
 MONGO_URI=mongodb://localhost:27017/library_db
+```
 4️⃣ Run the project in development mode
-bash
-Copy
-Edit
+```bash
 npm run dev
+```
 5️⃣ Build for production
-bash
-Copy
-Edit
+```bash
 npm run build
 npm start
+```
+
 📌 API Endpoints
 📚 Books
-Method	Endpoint	Description
-GET	/api/books	Get all books
-GET	/api/books/:id	Get book by ID
-POST	/api/books	Add new book
-PUT	/api/books/:id	Update book
-DELETE	/api/books/:id	Delete book
+| Method | Endpoint         | Description    |
+| ------ | ---------------- | -------------- |
+| GET    | `/api/books`     | Get all books  |
+| GET    | `/api/books/:id` | Get book by ID |
+| POST   | `/api/books`     | Add new book   |
+| PUT    | `/api/books/:id` | Update book    |
+| DELETE | `/api/books/:id` | Delete book    |
 
 📖 Borrow
-Method	Endpoint	Description
-POST	/api/borrow	Borrow a book
-GET	/api/borrow/summary	Get borrowed books summary (aggregation)
+| Method | Endpoint              | Description                              |
+| ------ | --------------------- | ---------------------------------------- |
+| POST   | `/api/borrow`         | Borrow a book                            |
+| GET    | `/api/borrow/summary` | Get borrowed books summary (aggregation) |
 
 📊 Example API Response
-Borrowed Books Summary
-json
-Copy
-Edit
+```bash
 {
   "success": true,
   "message": "Borrowed books summary retrieved successfully",
@@ -125,21 +127,19 @@ Edit
     }
   ]
 }
-🛡️ Error Handling
-All API responses follow a consistent structure:
+```
 
-json
-Copy
-Edit
+🛡️ Error Handling
+```bash
 {
   "success": false,
   "message": "Book not found"
 }
+```
 🧪 Running Tests
-bash
-Copy
-Edit
+```bash
 npm run test
+```
 👨‍💻 Author
 Rahyan Akil Edge
 📧 rahyanakil89@gmail.com
@@ -148,21 +148,14 @@ Rahyan Akil Edge
 📜 License
 This project is licensed under the MIT License.
 
-yaml
-Copy
-Edit
+
 
 ---
 
-✅ **Why this will look perfect now**  
-- Proper code fences (` ```bash`, ` ```json`) make commands and JSON readable.  
-- Headings (`##`, `###`) are consistent so sections stand out.  
-- Tables are used for API endpoint lists.  
-- Sections are separated by `---` lines for better readability.  
-
-If you paste this into your **README.md**, GitHub will render it clean and professional.  
+✅ **Key fix:**  
+Every time you open a code block with three backticks (\`\`\`), **close it** before writing normal text again.  
+That’s what will stop GitHub from putting everything in a giant grey box.
 
 ---
 
-If you want, I can also **add a premium ASCII title banner** to the top so it has that “wow” factor when someone opens your repo.  
-That would make it really stand out.
+
