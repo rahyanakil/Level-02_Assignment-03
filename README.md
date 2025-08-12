@@ -61,7 +61,7 @@ src/
 │── index.ts # App entry point
 
 
----
+
 ```
 
 ## ⚙️ Installation & Setup
@@ -158,6 +158,7 @@ Every time you open a code block with three backticks (\`\`\`), **close it** bef
 That’s what will stop GitHub from putting everything in a giant grey box.
 
 ---
+
 
 
 
