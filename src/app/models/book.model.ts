@@ -42,7 +42,7 @@ const bookSchema = new Schema<BookDocument>(
     toJSON: {
       transform: (
         _doc,
-        ret: Partial<BookDocument> & { _id: any; __v?: any }
+        ret: Partial<BookDocument> & { _id: string; __v?: number }
       ) => {
         if (ret._id) ret._id = ret._id.toString();
         if (ret.__v !== undefined) delete ret.__v;
