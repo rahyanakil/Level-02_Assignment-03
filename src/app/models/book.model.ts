@@ -1,14 +1,11 @@
-import mongoose = require("mongoose");
-import { Document, Model, Schema } from "mongoose";
-import { IBook } from "../interfaces/book.interface";
+import mongoose, { Document, Model, Schema } from 'mongoose';
+import type { IBook } from '../interfaces/book.interface.js';
 
 interface BookDocument extends IBook, Document {
   updateAvailability(): Promise<void>;
 }
 
-interface BookModel extends Model<BookDocument> {
-  updateAvailabilityStatic(bookId: string): Promise<void>;
-}
+interface BookModel extends Model<BookDocument> {}
 
 const bookSchema = new Schema<BookDocument>(
   {
@@ -18,14 +15,14 @@ const bookSchema = new Schema<BookDocument>(
       type: String,
       required: true,
       enum: [
-        "FICTION",
-        "NON-FICTION",
-        "SCIENCE",
-        "HISTORY",
-        "FANTASY",
-        "BIOGRAPHY",
-        "MYSTERY",
-        "ROMANCE",
+        'FICTION',
+        'NON-FICTION',
+        'SCIENCE',
+        'HISTORY',
+        'FANTASY',
+        'BIOGRAPHY',
+        'MYSTERY',
+        'ROMANCE',
       ],
     },
     isbn: { type: String, required: true, unique: true },
@@ -33,7 +30,7 @@ const bookSchema = new Schema<BookDocument>(
     copies: {
       type: Number,
       required: true,
-      min: [0, "Copies must be a positive number"],
+      min: [0, 'Copies must be a positive number'],
     },
     available: {
       type: Boolean,
@@ -43,34 +40,26 @@ const bookSchema = new Schema<BookDocument>(
   {
     timestamps: true,
     toJSON: {
-      transform(_doc, ret) {
-        ret._id = ret._id.toString();
-        delete ret.__v;
+      transform: (
+        _doc,
+        ret: Partial<BookDocument> & { _id: any; __v?: any }
+      ) => {
+        if (ret._id) ret._id = ret._id.toString();
+        if (ret.__v !== undefined) delete ret.__v;
         return ret;
       },
     },
   }
 );
 
-// Instance method
 bookSchema.methods.updateAvailability = async function () {
   this.available = this.copies > 0;
   await this.save();
 };
 
-// Static method
-bookSchema.statics.updateAvailabilityStatic = async function (bookId: string) {
-  const book = await this.findById(bookId);
-  if (book) {
-    book.available = book.copies > 0;
-    await book.save();
-  }
-};
-
-// Middleware
-bookSchema.pre("save", function (next) {
+bookSchema.pre('save', function (next) {
   console.log(`Book being saved: ${this.title}`);
   next();
 });
 
-export const Book = mongoose.model<BookDocument, BookModel>("Book", bookSchema);
+export const Book = mongoose.model<BookDocument, BookModel>('Book', bookSchema);

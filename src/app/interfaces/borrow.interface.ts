@@ -1,5 +1,4 @@
-import { Types } from "mongoose";
-
+import { Types } from 'mongoose';
 export interface IBorrow {
   book: Types.ObjectId;
   quantity: number;
